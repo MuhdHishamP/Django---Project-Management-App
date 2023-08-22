@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<br>
+<div class = "col-md-6 offset-md-3 col-sm-9 ">
+{% if user.is_authenticated %}
+<!--<div class="mb-3">
+  <label for="exampleInputEmail1" class="form-label">Project Title</label>
+  <input type="text" class="form-control" name="ptitile">
+</div><div class="mb-3">
+  <label for="exampleInputEmail1" class="form-label">Project Description</label>
+  <input type="text" class="form-control" name="pdesc">
+  <br>-->
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+  <button type="submit" class="btn btn-primary col-md-12 col-sm-9">Add Project</button>
+  </form>
+</div>
+{% else %}
+    <div class="container">
+    <div class="row">
+          
+            <h1>Login</h1>
+            <br>
+            <br>
+            <br>
+            <form method="POST" action="{% url 'home' %}">
+              {% csrf_token %}
+
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Username</label>
+                  <input type="text" class="form-control" name="username">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Login</button>
+                
+              </form>
+    </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}
