@@ -9,17 +9,24 @@ def home(request):
     form = Pro_add_form()
     #for logging in
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        # for authenticating
-        user = authenticate(request,username=username,password=password)
-        if user is not None:
-            login(request, user)
-            messages.success(request,'You have been logged in...')
-            return redirect('home')
-        else:
-            messages.error(request,'Error occured, Try again...')
-            return redirect('home')
+        action = request.POST.get('action')
+        if action == 'add_record':
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Record Added...")
+                return redirect('home')
+        else:    
+            username = request.POST['username']
+            password = request.POST['password']
+            # for authenticating
+            user = authenticate(request,username=username,password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request,'You have been logged in...')
+                return redirect('home')
+            else:
+                messages.error(request,'Error occured, Try again...')
+                return redirect('home')
     else:
         return render(request,'home.html',{'Pro_add_details':Pro_add_details,'form':form})
 """def pro_add(request):
