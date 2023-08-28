@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+</style>
+<div class = "col-md-6 offset-md-3 col-sm-9 ">
+<br><br>
+<form method="POST" action="" >
+    {% csrf_token %}
+    {{form.task}}
+    <br>
+    <button type="submit" class="btn btn-outline-primary" >Add</button>
+    
+    <br><br>
+<div class="card border-secondary mb-3" style="max-width: 50rem; margin-top: 30px;">
+    <div class="card-header"><strong>Added Tasks</strong></div>
+    <div style="margin:20px ;">
+        <p class="card-text">
+            {% if project_tasks %}      
+                {% for task in open_tasks %}
+                    {{task}}{{form.complete}} <br>
+                {% endfor %}
+            {% else %}
+                <h3> No task </h3>
+            {% endif %}
+        </p>
+        <a href="#" class="btn btn-primary">Edit</a>  
+    </div>
+</div>
+</form>
+</div>
+{% endblock %}

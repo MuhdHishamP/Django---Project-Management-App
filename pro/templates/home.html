@@ -4,7 +4,6 @@
 <br>
 <div class = "col-md-6 offset-md-3 col-sm-9 ">
 {% if user.is_authenticated %}
-<div class="d-grid gap-2 col-6 mx-auto bg-">
 
 
 
@@ -12,14 +11,58 @@
   
     {% csrf_token %}
     <input type="hidden" name="action" value="add_record">
-    {{ form.as_p }}
+    {{ form.Project_Title.label_tag }}
+    <input type="text" class="form-control" name="Project_Title" >
+    <br>
+    {{ form.Project_Description.label_tag }}
+    <textarea class="form-control" name="Project_Description" rows="4"></textarea>
     <br>
  
   <button type="submit" class="btn btn-primary col-md-5 col-sm-9">Add Project</button>
-
   </form>
+  <br>  <br>
 </div>
+<div class = "col-md-6 offset-md-2 col-sm-9 ">
+
 </div>
+<div class = "col-md-6 offset-md-3 col-sm-9 ">
+  <h4>Added Projects:</h4>
+
+  {% for Pro_add_detail in Pro_add_details %}
+  <div class="card border-secondary mb-3" style="max-width: 50rem;">
+    <div class="card-header"><strong>{{Pro_add_detail}}</strong></div>
+    <div style="margin:20px ;">
+      <p class="card-text">{{Pro_add_detail.Project_Description}}</p>
+      <a href="{% url 'task' Pro_add_detail.id %}" class="btn btn-primary">Open</a>  
+      <a href="{% url 'update_project' Pro_add_detail.id %}" class="btn btn-primary">Edit</a>  
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ Pro_add_detail.id }}"> 
+        Delete    </button>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal{{ Pro_add_detail.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Delete</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete the project "{{Pro_add_detail.Project_Title}}"
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <form method="POST" action="{% url 'delete_project' Pro_add_detail.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Delete</button>
+              </form>                
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>    
+  {% endfor %}
+</div> 
+
 
 {% else %}
     <div class="container">

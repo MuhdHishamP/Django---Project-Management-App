@@ -1,5 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Pro_add
+from .models import *
 admin.site.register(Pro_add)
+admin.site.register(task_add)
