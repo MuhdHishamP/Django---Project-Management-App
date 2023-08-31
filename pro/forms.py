@@ -34,7 +34,6 @@ class Pro_add_form(forms.ModelForm):
         fields = '__all__'
 
 class task_add_form(forms.ModelForm):
-    open = forms.ModelChoiceField(queryset=Pro_add.objects.all())
     task = forms.CharField(widget= forms.TextInput(attrs={'placeholder':'Add Task...'}))
     class Meta:
         model = task_add

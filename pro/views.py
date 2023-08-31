@@ -74,18 +74,45 @@ def delete_project(request , pk):
         messages.success(request, "Record Deleted Successfully")
 
         return redirect('home')
-def task(request ,pk):
-    open = get_object_or_404(Pro_add,id = pk)
-    open_tasks = open.task_add.all()
-    form = task_add_form()
-    if request.method == "POST":
-        form = task_add_form(request.POST) 
-        if form.is_valid():
-            form.save() 
-            messages.success(request, "Task Added...")
-            task_list_url= reverse('task', args=[pk])
-            return redirect('task')
+def tasks(request, pk):
+    open = get_object_or_404(Pro_add, id=pk)
+    open_tasks = task_add.objects.filter(open=open)
+    pro_add_instance = Pro_add.objects.get(id=pk) 
+    oldform = Pro_add_form(instance=pro_add_instance)
+    form = task_add_form(request.POST or None)
+    selected_task_ids = [] 
 
+    if request.method == "POST":
+        action = request.POST.get('action')
+        
+        if action == 'add_task':
+            if form.is_valid():
+                task = form.cleaned_data['task']
+                tas = task_add(open=open, task=task)
+                tas.save() 
+                messages.success(request, "Task Added...")
+            else:
+                messages.error(request, "Task could not be added. Please fill in the required field.")
+        
+        elif action == 'delete_tasks':
+            task_ids = request.POST.getlist('task_ids')
+            tasks_to_delete = task_add.objects.filter(id__in=task_ids)
+            tasks_to_delete.delete()
+            messages.success(request, "Selected Tasks Deleted.")
+        
+        selected_task_ids = request.POST.getlist('task_ids', [])
+
+
+        tasks_list_url = reverse('tasks', args=[pk])
+        return redirect(tasks_list_url)
+
+    
     else:
-        return render(request, 'task.html',{'form':form,'open_tasks':open_tasks,'open':open})   
-    return render(request, 'task.html',{'form':form,'open_tasks':open_tasks,'open':open})   
+        context = {
+            'oldform': oldform,
+            'form': form,
+            'open_tasks': open_tasks,
+            'selected_task_ids': selected_task_ids,  # Pass the selected task IDs to the template
+            'open': open,
+        }
+        return render(request, 'task.html', context)

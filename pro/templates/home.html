@@ -17,6 +17,7 @@
     {{ form.Project_Description.label_tag }}
     <textarea class="form-control" name="Project_Description" rows="4"></textarea>
     <br>
+    <input type="date"><br>
  
   <button type="submit" class="btn btn-primary col-md-5 col-sm-9">Add Project</button>
   </form>
@@ -26,14 +27,18 @@
 
 </div>
 <div class = "col-md-6 offset-md-3 col-sm-9 ">
-  <h4>Added Projects:</h4>
+  <h4>Projects:</h4>
 
   {% for Pro_add_detail in Pro_add_details %}
   <div class="card border-secondary mb-3" style="max-width: 50rem;">
-    <div class="card-header"><strong>{{Pro_add_detail}}</strong></div>
+    <div class="card-header">
+
+      <strong>
+        {{Pro_add_detail.Project_Title}}</strong>
+    </div>
     <div style="margin:20px ;">
       <p class="card-text">{{Pro_add_detail.Project_Description}}</p>
-      <a href="{% url 'task' Pro_add_detail.id %}" class="btn btn-primary">Open</a>  
+      <a href="{% url 'tasks' Pro_add_detail.id %}" class="btn btn-primary">Open</a>  
       <a href="{% url 'update_project' Pro_add_detail.id %}" class="btn btn-primary">Edit</a>  
       <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ Pro_add_detail.id }}"> 
         Delete    </button>

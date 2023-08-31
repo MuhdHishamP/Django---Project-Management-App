@@ -7,30 +7,62 @@ input{
     margin-bottom: 5px;
 }
 </style>
-<div class = "col-md-6 offset-md-3 col-sm-9 ">
-<br><br>
-<form method="POST" action="" >
-    {% csrf_token %}
-    {{form.task}}
+<div class="col-md-6 offset-md-3 col-sm-9">
     <br>
-    <button type="submit" class="btn btn-outline-primary" >Add</button>
-    
-    <br><br>
-<div class="card border-secondary mb-3" style="max-width: 50rem; margin-top: 30px;">
-    <div class="card-header"><strong>Added Tasks</strong></div>
-    <div style="margin:20px ;">
-        <p class="card-text">
-            {% if project_tasks %}      
-                {% for task in open_tasks %}
-                    {{task}}{{form.complete}} <br>
-                {% endfor %}
-            {% else %}
-                <h3> No task </h3>
-            {% endif %}
-        </p>
-        <a href="#" class="btn btn-primary">Edit</a>  
+    <h1>{{ oldform.Project_Title.value }}</h1>
+    <h3>{{ oldform.Project_Description.value }}</h3>
+    <br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.task }}
+        <br>
+        <button type="submit" class="btn btn-outline-primary" name="action" value="add_task">Add</button>
+    </form>
+    <div class="card border-secondary mb-3" style="max-width: 50rem; margin-top: 30px; ">
+        <div class="card-header"><strong>Tasks</strong></div>
+        <div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
+            <p class="card-text">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for task in open_tasks %}
+                        <div style="display: flex; align-items: center;">
+                            <span style="margin-right: 10px;">
+                                <input type="checkbox" name="task_ids" value="{{ task.id }} "
+                                       {% if task.id in selected_task_ids %}checked{% endif %} >
+                            </span>
+                            {{ task }}
+                        </div>
+                    {% endfor %}
+                    <br>
+                    <button type="submit" class="btn btn-danger" name="action" value="delete_tasks">Delete</button>
+                </form>
+            </p>
+        </div>
     </div>
 </div>
-</form>
-</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll("input[type='checkbox'][name='task_ids']");
+    
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function() {
+                const selectedTaskIds = Array.from(checkboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+                    
+                localStorage.setItem("selectedTaskIds", JSON.stringify(selectedTaskIds));
+            });
+        });
+    
+        const storedTaskIds = JSON.parse(localStorage.getItem("selectedTaskIds")) || [];
+    
+        storedTaskIds.forEach(taskId => {
+            const checkbox = document.querySelector(`input[type='checkbox'][name='task_ids'][value='${taskId}']`);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+    });
+    </script>
+    
 {% endblock %}

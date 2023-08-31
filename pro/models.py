@@ -5,6 +5,8 @@ class Pro_add(models.Model):
     Project_Title = models.CharField(max_length=100)
     Project_Description = models.CharField(max_length=300)
     created = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
+
 
 
     def __str__(self):
