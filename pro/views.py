@@ -4,6 +4,8 @@ from django.contrib import messages
 from .forms import SignUpForm,Pro_add_form,task_add_form
 from .models import Pro_add,task_add
 from django.urls import reverse
+from datetime import datetime
+
 
 
 
@@ -11,6 +13,7 @@ from django.urls import reverse
 def home(request):
     Pro_add_details = Pro_add.objects.all()
     form = Pro_add_form(request.POST or None)
+    now = datetime.today().date()   
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == 'add_record':
@@ -34,7 +37,7 @@ def home(request):
                 messages.error(request,'Error occured, Try again...')
                 return redirect('home')
     else:
-        return render(request,'home.html',{'Pro_add_details':Pro_add_details,'form':form})
+        return render(request,'home.html',{'Pro_add_details':Pro_add_details,'form':form,'now':now})
 
 
 def logout_user(request):

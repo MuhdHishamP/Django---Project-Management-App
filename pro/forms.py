@@ -29,6 +29,8 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'	
 
 class Pro_add_form(forms.ModelForm):
+    deadline = forms.DateField(required=True, widget=forms.DateInput(attrs={"type": "date", "class":"form-control"}), label="Deadline")
+
     class Meta:
         model = Pro_add
         fields = '__all__'

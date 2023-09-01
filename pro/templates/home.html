@@ -2,8 +2,8 @@
 {% block content %}
 <br>
 <br>
-<div class = "col-md-6 offset-md-3 col-sm-9 ">
-{% if user.is_authenticated %}
+<div class="d-grid gap-2 col-6 mx-auto bg-">
+  {% if user.is_authenticated %}
 
 
 
@@ -17,8 +17,10 @@
     {{ form.Project_Description.label_tag }}
     <textarea class="form-control" name="Project_Description" rows="4"></textarea>
     <br>
-    <input type="date"><br>
- 
+    {{ form.deadline.label_tag  }}
+    {{ form.deadline}}<br>
+    
+  <br><br>
   <button type="submit" class="btn btn-primary col-md-5 col-sm-9">Add Project</button>
   </form>
   <br>  <br>
@@ -38,6 +40,9 @@
     </div>
     <div style="margin:20px ;">
       <p class="card-text">{{Pro_add_detail.Project_Description}}</p>
+       {% if Pro_add_detail.deadline < now %} 
+      <p style="color: red;">Deadline Reached!</p>
+       {% endif %}
       <a href="{% url 'tasks' Pro_add_detail.id %}" class="btn btn-primary">Open</a>  
       <a href="{% url 'update_project' Pro_add_detail.id %}" class="btn btn-primary">Edit</a>  
       <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ Pro_add_detail.id }}"> 
