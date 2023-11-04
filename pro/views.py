@@ -59,17 +59,6 @@ def register_user(request):
         form = SignUpForm()
         return render(request, 'register.html',{'form':form})
     return render(request,'register.html',{'form':form})
-def update_project(request, pk):
-    pro_add_instance = Pro_add.objects.get(id=pk)  # Retrieve the instance
-    if request.method == 'POST':
-        form = Pro_add_form(request.POST, instance=pro_add_instance)  # Populate the form with instance data
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Record Updated Successfully")
-            #return redirect('home')
-    else:
-        form = Pro_add_form(instance=pro_add_instance)  # Populate the form with instance data
-    return render(request, 'update_project.html', {'form': form, 'pro_add_instance': pro_add_instance})
 def delete_project(request , pk):
     item = Pro_add.objects.get(id=pk)
     if request.method=="POST":

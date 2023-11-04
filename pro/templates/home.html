@@ -44,7 +44,6 @@
       <p style="color: red;">Deadline Reached!</p>
        {% endif %}
       <a href="{% url 'tasks' Pro_add_detail.id %}" class="btn btn-primary">Open</a>  
-      <a href="{% url 'update_project' Pro_add_detail.id %}" class="btn btn-primary">Edit</a>  
       <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ Pro_add_detail.id }}"> 
         Delete    </button>
         <!-- Modal -->
