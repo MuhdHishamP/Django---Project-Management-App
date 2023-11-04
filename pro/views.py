@@ -57,7 +57,7 @@ def register_user(request):
             return redirect('home')
     else:
         form = SignUpForm()
-        return render(request, 'register.html',{'form':form})
+        # return render(request, 'register.html',{'form':form})
     return render(request,'register.html',{'form':form})
 def delete_project(request , pk):
     item = Pro_add.objects.get(id=pk)

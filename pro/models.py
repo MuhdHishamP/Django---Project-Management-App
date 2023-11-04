@@ -5,13 +5,12 @@ class Pro_add(models.Model):
     Project_Title = models.CharField(max_length=100)
     Project_Description = models.CharField(max_length=300)
     created = models.DateTimeField(auto_now_add=True)
-    complete = models.BooleanField(default=False)
-    deadline = models.DateField(null=True, default=None)
+    deadline = models.DateField()
 
 
 
     def __str__(self):
-        return f"{self.Project_Title}"
+        return self.Project_Title
     
 
 class task_add(models.Model):
@@ -21,4 +20,4 @@ class task_add(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.task}"
+        return self.task
