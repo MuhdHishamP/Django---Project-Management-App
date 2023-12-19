@@ -83,8 +83,6 @@ def tasks(request, pk):
                 tas = task_add(open=open, task=task)
                 tas.save() 
                 messages.success(request, "Task Added...")
-            else:
-                messages.error(request, "Task could not be added. Please fill in the required field.")
         
         elif action == 'delete_tasks':
             task_ids = request.POST.getlist('task_ids')
@@ -102,7 +100,7 @@ def tasks(request, pk):
     else:
         context = {
             'oldform': oldform,
-            'form': form,
+            'form': form,   
             'open_tasks': open_tasks,
             'selected_task_ids': selected_task_ids,  # Pass the selected task IDs to the template
             'open': open,

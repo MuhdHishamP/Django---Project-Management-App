@@ -14,7 +14,7 @@ class Pro_add(models.Model):
     
 
 class task_add(models.Model):
-    open = models.ForeignKey(Pro_add, null=True, blank= True, on_delete=models.CASCADE, related_name="task_add")
+    open = models.ForeignKey(Pro_add, on_delete=models.CASCADE, related_name="task_add")
     task = models.CharField(max_length=200)
     complete = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
