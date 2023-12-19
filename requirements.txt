@@ -6,3 +6,4 @@ requests==2.25.1
 asgiref==3.7.2
 Jinja2==3.0.3
 MarkupSafe==2.0.1
+sqlite==3.8.3
